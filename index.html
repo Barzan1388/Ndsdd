@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perform Tasks</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: black;
+            color: rgb(255, 255, 255);
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .moon {
+            width: 100px;
+            height: 100px;
+            background-color: #f9f9f9;
+            border-radius: 50%;
+            margin: 20px auto;
+            box-shadow: 0 0 20px 5px rgb(237, 247, 105);
+        }
+        
+        h1,
+        h2 {
+            text-align: center;
+        }
+        
+        .task-box {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .task-box img {
+            width: 50px;
+            height: 50px;
+        }
+        
+        .task-info {
+            flex-grow: 1;
+            margin-left: 15px;
+        }
+        
+        .check-btn {
+            background-color: #2ba33b;
+            border: none;
+            color: rgb(255, 255, 255);
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        
+        .check-btn:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        
+        #dots {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="dots"></canvas>
+    <div class="container">
+        <div class="moon"></div>
+        <h1>Perform Tasks</h1>
+        <div class="task-box">
+            <img src="file:///C:/Users/ramin%20laptop/Desktop/RB_ee4e-e9c1-43ab-8eeb-1d7f1e806f48_1723980268769.png" alt="YouTube">
+            <div class="task-info">
+                <p>Watch Video</p>
+                <p>$ +10</p>
+            </div>
+            <button class="check-btn" onclick="checkTask(0)">Check</button>
+        </div>
+        <div class="task-box">
+            <img src="file:///C:/Users/ramin%20laptop/Desktop/RB_ee4e-e9c1-43ab-8eeb-1d7f1e806f48_1723980268769.png" alt="YouTube">
+            <div class="task-info">
+                <p>Watch Video</p>
+                <p>$ +10</p>
+            </div>
+            <button class="check-btn" onclick="checkTask(1)">Check</button>
+        </div>
+        <h2>Important Tasks</h2>
+        <div class="task-box">
+            <img src="file:///C:/Users/ramin%20laptop/Downloads/Jowhareh_galleries_5_poster_a85fc562-57df-4136-9628-1284449d51ef.png" alt="Telegram">
+            <div class="task-info">
+                <p>Follow our channel</p>
+                <p>$ +20</p>
+            </div>
+            <button class="check-btn" onclick="checkTask(2)">Check</button>
+        </div>
+        <div class="task-box">
+            <img src="file:///C:/Users/ramin%20laptop/Desktop/%C3%9B%C2%B1%C3%9B%C2%B3_%C3%9B%C2%B5%C3%9B%C2%B8_%C3%9B%C2%B4%C3%9B%C2%B2_glowing-youtube-logo-realistic-3d-circle-Top.jpg" alt="YouTube">
+            <div class="task-info">
+                <p>Subscribe to our YouTube</p>
+                <p>$ +50</p>
+            </div>
+            <button class="check-btn" onclick="checkTask(3)">Check</button>
+        </div>
+        <div class="task-box">
+            <img src="file:///C:/Users/ramin%20laptop/Downloads/Jowhareh_galleries_8_poster_7ec63eae-e68b-4de6-b271-a31700a905d2.png" alt="Twitter">
+            <div class="task-info">
+                <p>Follow our X</p>
+                <p>© +20</p>
+            </div>
+            <button class="check-btn" onclick="checkTask(4)">Check</button>
+        </div>
+        <div class="task-box">
+            <img src="file:///C:/Users/ramin%20laptop/Downloads/Jowhareh_galleries_5_poster_24e41fb3-da35-4fe1-a45e-94f2ee6b01f0.png" alt="Instagram">
+            <div class="task-info">
+                <p>Follow our Instagram</p>
+                <p>$ +5</p>
+            </div>
+            <button class="check-btn" onclick="checkTask(5)">Check</button>
+        </div>
+    </div>
+    <script>
+        // Animated dots background
+        const canvas = document.getElementById('dots');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const dots = [];
+        const numDots = 100;
+
+        for (let i = 0; i < numDots; i++) {
+            dots.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                radius: Math.random() * 2 + 1,
+                dx: (Math.random() - 0.5) * 0.5,
+                dy: (Math.random() - 0.5) * 0.5
+            });
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            dots.forEach(dot => {
+                ctx.beginPath();
+                ctx.arc(dot.x, dot.y, dot.radius, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.5)';
+                ctx.fill();
+
+                dot.x += dot.dx;
+                dot.y += dot.dy;
+
+                if (dot.x < 0 || dot.x > canvas.width) dot.dx = -dot.dx;
+                if (dot.y < 0 || dot.y > canvas.height) dot.dy = -dot.dy;
+            });
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+
+        // Task checking functionality
+        function checkTask(taskIndex) {
+            const lastClickTime = localStorage.getItem(`lastClickTime${taskIndex}`);
+            const currentTime = new Date().getTime();
+
+            if (lastClickTime && currentTime - lastClickTime < 600000) { // 10 minutes = 600000 milliseconds
+                alert('You can only check this task once every 10 minutes. Please try again later.');
+                return;
+            }
+
+            localStorage.setItem(`lastClickTime${taskIndex}`, currentTime);
+            const button = document.getElementsByClassName('check-btn')[taskIndex];
+            button.disabled = true;
+            button.textContent = 'Checked';
+
+            setTimeout(() => {
+                button.disabled = false;
+                button.textContent = 'Check';
+            }, 600000); // Re-enable after 10 minutes
+        }
+
+        // Initialize button states on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            const buttons = document.getElementsByClassName('check-btn');
+            for (let i = 0; i < buttons.length; i++) {
+                const lastClickTime = localStorage.getItem(`lastClickTime${i}`);
+                const currentTime = new Date().getTime();
+
+                if (lastClickTime && currentTime - lastClickTime < 600000) {
+                    buttons[i].disabled = true;
+                    buttons[i].textContent = 'Checked';
+                    setTimeout(() => {
+                        buttons[i].disabled = false;
+                        buttons[i].textContent = 'Check';
+                    }, 600000 - (currentTime - lastClickTime));
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
